@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>商品列表</title>
+    <base href="<%=basePath%>">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
+</head>
+<script type="text/javascript">
+    var app = angular.module("app", []);
+    app.controller('siteCtrl', function($scope, $http) {
+        $http({
+            method: "POST",
+        url: "queryList"
+    }).then(function successCallback(response) {
+        $scope.names = response.data;
+    }, function errorCallback(response) {
+        // 请求失败执行代码
+    });
+
+    $scope.adds = function (nums) {
+
+        $http({
+            method:"POST",
+            url:"addOrders?nums="+nums,
+            dataType:"text"
+        }).then(function successCallback() {
+            window.location.reload();
+        }, function errorCallback() {
+            // 请求失败执行代码
+        });
+    }
+    $scope.kiss = function (nums) {
+        $http({
+            method: "POST",
+            url: "kissOrders?nums="+nums,
+            dataType:"text"
+        }).then(function successCallback() {
+            window.location.reload();
+        }, function errorCallback() {
+            // 请求失败执行代码
+        });
+    }
+
+    });
+
+
+</script>
+
+
+<body ng-app = "app" ng-controller="siteCtrl">
+
+<div class="col-xs-6 col-md-offset-3">
+ <table class="table table-bordered col-md-6 ">
+<caption>商品列表</caption>
+     <br/>
+        <span class="col-xs-6 col-md-offset-6">欢迎您:${username}</span>
+<tr>
+    <th>商品名</th>
+    <th>商品编号</th>
+    <th>商品价格</th>
+    <th>商品数量</th>
+</tr>
+
+<tr ng-repeat="shop in names">
+    <th>{{shop.id}}</th>
+    <th>{{shop.goodsname}}</th>
+    <th>{{shop.price}}</th>
+    <th><button class="btn btn-success btn-sm" id="adds" ng-click="adds(shop.id)">+</button>{{shop.account}} <button class="btn btn-success" id="kiss"  ng-click="kiss(shop.id)">-</button></th>
+</tr>
+
+
+
+</table>
+</div>
+</body>
+
+
+</html>

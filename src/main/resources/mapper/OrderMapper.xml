@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bawei.mapper.OrderMapper">
+    <parameterMap id="userShop" type="com.bawei.bean.t_order">
+        <parameter property="id"/>
+        <parameter property="user_id"/>
+        <parameter property="goods_id"/>
+        <parameter property="goods_account"/>
+    </parameterMap>
+<insert id="addOrders" parameterMap="userShop">
+    update t_order td,t_goods tg set tg.account = tg.account + 1, td.goods_account = td.goods_account - 1 where td.goods_id = tg.id and td.id=#{nums}
+</insert>
+<insert id="kissOrders" parameterMap="userShop">
+    update t_order td,t_goods tg set  tg.account = tg.account - 1, td.goods_account = td.goods_account + 1 where td.goods_id = tg.id and td.id=#{nums}
+</insert>
+</mapper>
+      <!--  http://localhost/test/login-->
